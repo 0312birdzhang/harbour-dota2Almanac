@@ -17,14 +17,16 @@ CONFIG += sailfishapp
 SOURCES += src/harbour-dota2Almanac.cpp
 
 OTHER_FILES += qml/harbour-dota2Almanac.qml \
-    qml/cover/CoverPage.qml \
     qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml \
     rpm/harbour-dota2Almanac.changes.in \
     rpm/harbour-dota2Almanac.spec \
     rpm/harbour-dota2Almanac.yaml \
     translations/*.ts \
-    harbour-dota2Almanac.desktop
+    harbour-dota2Almanac.desktop \
+    qml/pages/ShowEvents.qml \
+    qml/pages/files/API.js \
+    harbour-dota2Almanac.png \
+    qml/pages/files/icon-launcher-almanac.png
 
 # to disable building translations every time, comment out the
 # following CONFIG line

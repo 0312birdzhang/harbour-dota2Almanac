@@ -30,44 +30,269 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-
-
+import "files/API.js" as JS
+import "."
 Page {
     id: page
-
-    // To enable PullDownMenu, place our content in a SilicaFlickable
-    SilicaFlickable {
+    property string direction_value
+    property string drink_value
+    property string goddes_value
+    SilicaFlickable{
+        id:flickable
+        Component.onCompleted: {
+            JS.initAlmanac();
+        }
+        ListModel{id:goods}
+        ListModel{id:bads}
         anchors.fill: parent
-
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
+        PageHeader{
+            id:header
+            title:"Dota2老黄历"
+        }
+        Label{
+            id:showDate
+            width:parent.width
+            font.pixelSize: Theme.fontSizeMedium*5/4
+            font.bold: true
+            anchors{
+                top:header.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
+        Separator {
+            width:parent.width
+            anchors{
+                left:parent.left
+                right:parent.right
+                top:showDate.bottom
+                bottomMargin: Theme.paddingSmall
+            }
+            color: Theme.highlightColor
+        }
+        Item{
+            id:good
+            width:parent.width/3
+            height:goodList.height
+            anchors{
+                left:parent.left
+                top:showDate.bottom
+                topMargin: Theme.paddingSmall*2
+            }
+            Label{
+                anchors{
+                    verticalCenter:parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+                text:"宜"
+                font.pixelSize: Theme.fontSizeLarge
             }
         }
 
-        // Tell SilicaFlickable the height of its content.
-        contentHeight: column.height
-
-        // Place our content in a Column.  The PageHeader is always placed at the top
-        // of the page, followed by our content.
-        Column {
-            id: column
-
-            width: page.width
-            spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("UI Template")
+        SilicaListView{
+            id:goodList
+            model:goods
+            anchors{
+                left:good.right
+                right:parent.right
+                top:showDate.bottom
+                topMargin: Theme.paddingSmall*2
             }
-            Label {
-                x: Theme.paddingLarge
-                text: qsTr("Hello Sailors")
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeExtraLarge
+            height: childrenRect.height
+            clip:true
+            delegate:ShowEvents{}
+            VerticalScrollDecorator {}
+        }
+        Separator {
+            width:parent.width
+            anchors{
+                left:parent.left
+                right:parent.right
+                bottom:bad.top
+                topMargin: Theme.paddingSmall*2
+                bottomMargin: Theme.paddingSmall
+            }
+            color: Theme.highlightColor
+        }
+        Item{
+            id:bad
+            anchors{
+                top:good.bottom
+                left:parent.left
+                topMargin: Theme.paddingSmall*2
+            }
+            width:parent.width/3
+            height:badList.height
+            Label{
+                text:"不宜"
+                font.pixelSize: Theme.fontSizeLarge
+                anchors{
+                    verticalCenter:parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+        }
+        SilicaListView{
+            id:badList
+            model:bads
+            anchors{
+                left:bad.right
+                right:parent.right
+                topMargin: Theme.paddingSmall*2
+                top:goodList.bottom
+            }
+            height: childrenRect.height
+            clip:true
+            delegate: ShowEvents{}
+            VerticalScrollDecorator {}
+        }
+        Separator {
+            width:parent.width
+            anchors{
+                left:parent.left
+                right:parent.right
+                top:badList.bottom
+                topMargin: Theme.paddingSmall
+            }
+            color: Theme.highlightColor
+        }
+        Label{
+            id:sitToward
+            anchors{
+                top:badList.bottom
+                leftMargin: Theme.paddingSmall
+                topMargin: Theme.paddingSmall*2
+
+            }
+            text:"<strong>座位朝向：</strong>面向<font color='#4a4'>"+direction_value+"</font>打Dota2，胜率最高"
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall
+            width: parent.width
+        }
+        Label{
+            id:canDrink
+            anchors{
+                top:sitToward.bottom
+                leftMargin: Theme.paddingSmall
+                topMargin: Theme.paddingSmall*2
+            }
+            text:"<strong>今日宜饮：</strong>"+drink_value
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall
+            width: parent.width
+        }
+        Label{
+            id:godLikeNum
+            anchors{
+                top:canDrink.bottom
+                leftMargin: Theme.paddingSmall
+                topMargin: Theme.paddingSmall*2
+            }
+            text:"<strong>超神指数：</strong>"+goddes_value
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall
+            width: parent.width
+        }
+        Label{
+            anchors{
+                bottom:parent.bottom
+                right:parent.right
+                bottomMargin: Theme.paddingMedium
+                rightMargin: Theme.paddingMedium
+            }
+            text:">>>"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    pageStack.push(aboutpage)
+                }
             }
         }
     }
+    Page{
+        id:aboutpage
+        SilicaFlickable {
+                id: about
+                anchors.fill: parent
+                contentHeight: aboutRectangle.height
+
+                VerticalScrollDecorator { flickable: about }
+
+                Column {
+                    id: aboutRectangle
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width
+                    spacing: Theme.paddingSmall
+
+                    PageHeader {
+                        //: headline of application information page
+                        title: qsTr("关于")
+                    }
+
+                    Image {
+                        source: "files/icon-launcher-almanac.png"
+                        width: parent.width
+                        fillMode: Image.PreserveAspectFit
+                        horizontalAlignment: Image.AlignHCenter
+                    }
+
+                    Label {
+                        text:  "Dota2老黄历 0.1"
+                        horizontalAlignment: Text.Center
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    SectionHeader {
+                        //: headline for application description
+                        text: "描述"
+                    }
+
+                    Label {
+                        //: application description
+                        text: "本软件基于http://sandbox.runjs.cn/show/efhhvosl<br/>"+
+                               "感谢 新浪微薄@iCassius的授权，感谢中文原作者<br/> "+
+                               "也感谢最初作者 twitter: @fake_faith, G+: Yiding He<br/>"+
+                               "如果你对本软件有什么好的想法，可以邮件联系我 Email:birdzhang@9smart.cn<br/>"
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+
+                    SectionHeader {
+                        //: headline for application licensing information
+                        text: qsTr("Licensing")
+                    }
+
+                    Label {
+                        //: Copyright and license information
+                        text: qsTr("Copyright © by") + " 0312birzhang\n" + qsTr("License") + ": GPL v2"
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+
+                    SectionHeader {
+                        //: headline for application project information
+                        text: "项目源码"
+                        font.pixelSize: Theme.fontSizeSmall
+                    }
+
+                    Label {
+                        textFormat: Text.RichText;
+                        text: "<style>a:link { color: " + Theme.highlightColor + "; }</style><a href=\"https://github.com/0312birdzhang/harbour-dota2Almanac\">https://github.com/0312birdzhang/harbour-dota2Almanac\</a>"
+                        width: parent.width - Theme.paddingLarge * 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: Theme.fontSizeTiny
+
+                        onLinkActivated: {
+                            Qt.openUrlExternally(link)
+                        }
+                    }
+                }
+            }
+    }
+
 }
 
 

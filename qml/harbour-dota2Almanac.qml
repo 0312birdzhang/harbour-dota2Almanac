@@ -32,10 +32,67 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
 
-ApplicationWindow
-{
+ApplicationWindow{
+    id:appwindow
+    property string direction_value
+    property string drink_value
+    property string goddes_value
     initialPage: Component { FirstPage { } }
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    cover: CoverBackground {
+        id:coverPage
+        Label{
+            id:sitToward
+            text:"座位朝向：面向"+direction_value+"打Dota2，胜率最高"
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall*3/4
+            width: parent.width
+            anchors.topMargin: Theme.paddingSmall*2
+        }
+        Label{
+            id:canDrink
+            anchors{
+                top:sitToward.bottom
+                topMargin: Theme.paddingSmall*2
+            }
+            text:"今日宜饮："+drink_value
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall*3/4
+            width: parent.width
+        }
+        Label{
+            id:godLikeNum
+            anchors{
+                top:canDrink.bottom
+                topMargin: Theme.paddingSmall*2
+            }
+            text:"超神指数："+goddes_value
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall*3/4
+            width: parent.width
+        }
+        Label{
+            id:read
+            anchors{
+                horizontalCenter: parent.horizontalCenter
+                bottom:holyshit.top
+                bottomMargin: Theme.paddingSmall*5
+            }
+            text:"每日一读"
+            color: Theme.highlightColor
+            font.pixelSize: Theme.fontSizeMedium
+        }
+        Label{
+            id:holyshit
+            anchors{
+                horizontalCenter: parent.horizontalCenter
+                bottom:parent.bottom
+                bottomMargin: Theme.paddingSmall*5
+            }
+            text:"天天超神"
+            color: Theme.highlightColor
+            font.pixelSize: Theme.fontSizeMedium
+        }
+    }
 }
 
 

@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
-<context>
-    <name>CoverPage</name>
-    <message>
-        <source>My Cover</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
+<TS version="2.1">
 <context>
     <name>FirstPage</name>
     <message>
-        <source>Show Page 2</source>
+        <source>关于</source>
+        <extracomment>headline of application information page</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>UI Template</source>
+        <source>Licensing</source>
+        <extracomment>headline for application licensing information</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Hello Sailors</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SecondPage</name>
-    <message>
-        <source>Nested Page</source>
+        <source>Copyright © by</source>
+        <extracomment>Copyright and license information</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Item</source>
+        <source>License</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
-
