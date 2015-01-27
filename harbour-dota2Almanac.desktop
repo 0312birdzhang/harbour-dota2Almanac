@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=harbour-dota2Almanac
+Exec=harbour-dota2Almanac
+Name=harbour-dota2Almanac
+# translation example:
+# your app name in German locale (de)
+Name[de]=harbour-dota2Almanac
+
